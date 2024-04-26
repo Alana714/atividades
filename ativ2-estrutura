@@ -1,0 +1,57 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+typedef struct {
+    float X;
+    float Y;
+}Ponto;
+
+float AreaTriangulo(Ponto A, Ponto B, Ponto C);
+
+int main(){
+    Ponto ponto[100];
+    FILE *arquivo = fopen("Poligonos.txt", "r");
+    int vertice, quantPontos = 0;
+    float area, areaTri;
+
+    if(arquivo == NULL)
+    {
+        printf("Erro ao abrir o arquivo de entrada.\n");
+        exit(1);
+    }
+
+    system ("cls");
+    
+    fscanf(arquivo, "%d", &vertice);
+
+    while(quantPontos < vertice){
+        quantPontos++;
+        fscanf(arquivo, "%f %f", &ponto[quantPontos].X, &ponto[quantPontos].Y);
+        
+    }
+
+    if(vertice < 3){
+        printf("Nao ha vertices o suficiente para formar um poligono!");
+    }else if(vertice == 3){
+        area = AreaTriangulo(ponto[1], ponto[2], ponto[3]);
+        printf("A area do poligono e igual a: %.2f.", area);
+    }else{
+        for(int i = 2; i <= vertice; i++){
+            areaTri = AreaTriangulo(ponto[1], ponto[i - 1], ponto[i]);
+            area += areaTri;
+            }        
+        printf("A area do poligono e igual a: %.2f.", area);
+    }
+
+    fclose(arquivo); 
+}
+
+float AreaTriangulo(Ponto A, Ponto B, Ponto C){
+    float area, det;
+
+    det = (A.X * B.Y + A.Y * C.X + B.X * C.Y) - (B.Y * C.X + A.X * C.Y + A.Y * B.X);
+    area = fabs(det)/2;
+
+    return area;
+}
