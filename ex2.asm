@@ -1,5 +1,5 @@
 .data
-	numero: .asciiz "Digite um número: "
+	numero: .asciiz "Digite um nÃºmero: "
 	
 .text
 	li $v0, 4
